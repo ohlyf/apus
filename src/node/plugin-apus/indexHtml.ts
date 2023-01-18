@@ -13,7 +13,7 @@ export function pluginIndexHtml(): Plugin {
             tag: "script",
             attrs: {
               type: "module",
-              src: `/@fs${CLIENT_ENTRY_PATH}`,
+              src: `/@fs/${CLIENT_ENTRY_PATH}`,
             },
             injectTo: "body",
           },
