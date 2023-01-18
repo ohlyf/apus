@@ -1,3 +1,4 @@
+import { PACKAGE_ROOT } from './constants/index';
 /**
  * dev serve的初始化方法
  */
@@ -6,5 +7,13 @@ import { pluginIndexHtml } from './plugin-apus/indexHtml';
 import pluginReact from '@vitejs/plugin-react';
 
 export function createDevServer(root: string) {
-  return createServer({ root, plugins: [pluginIndexHtml(), pluginReact()] });
+  return createServer({
+    root,
+    plugins: [pluginIndexHtml(), pluginReact()],
+    server: {
+      fs: {
+        allow: [PACKAGE_ROOT]
+      }
+    }
+  });
 }
