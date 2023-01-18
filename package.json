@@ -6,7 +6,8 @@
   "scripts": {
     "start": "tsup --watch",
     "build": "tsup",
-    "lint": "eslint --fix --ext .ts,.tsx,.js,.jsx --quiet ./"
+    "lint": "eslint --fix --ext .ts,.tsx,.js,.jsx --quiet ./",
+    "prepare": "husky install"
   },
   "bin": {
     "apus": "bin/apus.js"
@@ -15,15 +16,19 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@commitlint/cli": "^17.4.2",
+    "@commitlint/config-conventional": "^17.4.2",
     "@types/fs-extra": "^11.0.0",
     "@types/node": "^18.11.18",
     "@typescript-eslint/eslint-plugin": "^5.48.2",
     "@typescript-eslint/parser": "^5.48.2",
+    "commitlint": "^17.4.2",
     "eslint": "^8.32.0",
     "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "^7.32.1",
     "eslint-plugin-react-hooks": "^4.6.0",
+    "husky": "^8.0.3",
     "prettier": "^2.8.3",
     "rollup": "^3.9.1",
     "tsup": "^6.5.0",
