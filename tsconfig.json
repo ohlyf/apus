@@ -5,6 +5,7 @@
     "rootDir": "src",
     "target": "ESNext",
     "jsx": "react-jsx",
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "baseUrl": "src"
   }
 }
