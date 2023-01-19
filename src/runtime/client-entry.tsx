@@ -1,7 +1,9 @@
 import { createRoot } from 'react-dom/client';
 import { App } from './App';
+import siteData from 'apus:site-data';
 
 function renderInBrowser() {
+  console.log(siteData);
   const containerEl = document.getElementById('root');
   if (!containerEl) {
     throw new Error('#root element not found');
