@@ -1,14 +1,21 @@
+import { pluginReact } from '@vitejs/plugin-react';
+import { SiteConfig } from './../shared/types/index';
 import { build as viteBuild, InlineConfig } from 'vite';
 import type { RollupOutput } from 'rollup';
 import { CLIENT_ENTRY_PATH, SERVER_ENTRY_PATH } from './constants';
 import { join, resolve } from 'path';
 import fs from 'fs-extra';
 import { pathToFileURL } from 'url';
+import { pluginConfig } from './plugin-apus/config';
 
-export async function bundle(root: string) {
+export async function bundle(root: string, config: SiteConfig) {
   const resolveViteConfig = (isServer: boolean): InlineConfig => ({
     mode: 'production',
     root,
+    plugins: [pluginReact(), pluginConfig(config)],
+    ssr: {
+      noExternal: ['react-router-dom']
+    },
     build: {
       ssr: isServer,
       outDir: isServer ? '.temp' : 'build',
@@ -65,12 +72,16 @@ export async function renderPage(
   await fs.remove(join(root, '.temp'));
 }
 
-export async function build(root: string = process.cwd()) {
+export async function build(root: string = process.cwd(), config: SiteConfig) {
   // 1. bundle - client 端 + server 端
-  const [clientBundle] = await bundle(root);
+  const [clientBundle] = await bundle(root, config);
   // 2. 引入 server-entry 模块
   const serverEntryPath = resolve(root, '.temp', 'ssr-entry.js');
   const { render } = await import(pathToFileURL(serverEntryPath).toString());
   // 3. 服务端渲染，产出 HTML
-  await renderPage(render, root, clientBundle);
+  try {
+    await renderPage(render, root, clientBundle);
+  } catch (e) {
+    console.log('Render page error.\n', e);
+  }
 }

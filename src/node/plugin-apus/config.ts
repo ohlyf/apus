@@ -1,13 +1,14 @@
-import { relative } from 'path';
+import { relative, join } from 'path';
 import { Plugin } from 'vite';
 import { SiteConfig } from '../../shared/types';
+import { PACKAGE_ROOT } from '../../node/constants';
 
 const SITE_DATA_ID = 'apus:site-data';
 
 // 让前端可以通过模拟模块的方式
 export function pluginConfig(
   config: SiteConfig,
-  restartServer: () => Promise<void>
+  restartServer?: () => Promise<void>
 ): Plugin {
   return {
     name: 'apus:config',
@@ -20,6 +21,16 @@ export function pluginConfig(
       if (id === '\0' + SITE_DATA_ID) {
         return `export default ${JSON.stringify(config.siteData)}`;
       }
+    },
+    config() {
+      return {
+        root: PACKAGE_ROOT,
+        resolve: {
+          alias: {
+            '@runtime': join(PACKAGE_ROOT, 'src', 'runtime', 'index.ts')
+          }
+        }
+      };
     },
     async handleHotUpdate(ctx) {
       const customWatchedFiles = [config.configPath];

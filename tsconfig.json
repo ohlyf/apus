@@ -6,6 +6,6 @@
     "target": "ESNext",
     "jsx": "react-jsx",
     "esModuleInterop": true,
-    "baseUrl": "src"
+    "baseUrl": "."
   }
 }
